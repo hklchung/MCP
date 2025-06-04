@@ -30,7 +30,7 @@ def home_page() -> None:
 
     if st.button("Guardrails"):
         st.session_state.page = "guardrails"
-        st.experimental_rerun()
+        st.rerun()
 
     if submitted:
         with st.spinner("Generating draft..."):
@@ -45,7 +45,7 @@ def home_page() -> None:
         st.session_state.approved = ok
         st.session_state.feedback = feedback
         st.session_state.page = "result"
-        st.experimental_rerun()
+        st.rerun()
 
 
 def guardrails_page() -> None:
@@ -59,7 +59,7 @@ def guardrails_page() -> None:
         st.success("Saved")
     if col2.button("Back"):
         st.session_state.page = "home"
-        st.experimental_rerun()
+        st.rerun()
 
 
 def result_page() -> None:
@@ -73,7 +73,7 @@ def result_page() -> None:
 
     if st.button("Back"):
         st.session_state.page = "home"
-        st.experimental_rerun()
+        st.rerun()
 
 
 if st.session_state.page == "home":
