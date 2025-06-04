@@ -1,0 +1,8 @@
+<!doctype html>
+<title>Guardrails</title>
+<h1>Edit Guardrails</h1>
+<form method="post">
+  <textarea name="rules" rows="10" cols="50">{{ rules }}</textarea><br>
+  <button type="submit">Save</button>
+</form>
+<p><a href="{{ url_for('index') }}">Back</a></p>
