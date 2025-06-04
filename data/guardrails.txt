@@ -1,0 +1,2 @@
+bannedword1
+bannedword2
