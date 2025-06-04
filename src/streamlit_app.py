@@ -22,6 +22,8 @@ if "page" not in st.session_state:
     st.session_state.page = "home"
 if "logs" not in st.session_state:
     st.session_state.logs = []
+if "trending" not in st.session_state:
+    st.session_state.trending = []
 
 
 def _log(job: str, agent: str, start: float) -> None:
@@ -78,8 +80,15 @@ def home_page() -> None:
             agent = ContentAgent(os.environ.get("OPENAI_API_KEY", ""), model)
             with st.spinner("Generating draft..."):
                 start = time.perf_counter()
-                trending = agent.fetch_trending_keywords(brief.get("title") or brief.get("description", ""))
-                _log("Look up relevant trending keywords", "content agent", start)
+                trending = agent.fetch_trending_keywords(
+                    brief.get("title") or brief.get("description", "")
+                )
+                _log(
+                    "Look up relevant trending keywords",
+                    "content agent",
+                    start,
+                )
+                st.session_state.trending = trending
                 start = time.perf_counter()
                 draft = agent.generate_draft(brief, trending)
                 _log("Draft article", "content agent", start)
@@ -129,6 +138,10 @@ def result_page() -> None:
         else:
             st.error(f"Status: Rejected - {st.session_state.get('feedback', '')}")
 
+        if st.session_state.get("trending"):
+            st.markdown("#### Trending Keywords")
+            st.write(", ".join(st.session_state.trending))
+
     with tabs[1]:
         if st.session_state.logs:
             df = pd.DataFrame(st.session_state.logs)
@@ -138,6 +151,7 @@ def result_page() -> None:
 
     if st.button("Back"):
         st.session_state.page = "home"
+        st.session_state.trending = []
         st.rerun()
 
 
