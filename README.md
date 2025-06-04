@@ -20,7 +20,7 @@ It uses Flask for a minimal dashboard and OpenAI LLMs for text generation.
    ```
 4. Run the application:
    ```bash
-   poetry run flask --app src.app run
+   PYTHONPATH=src poetry run flask --app app run
    ```
 
 ## Docker

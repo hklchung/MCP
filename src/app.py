@@ -12,7 +12,7 @@ from agents.approval_agent import approve, load_guardrails
 
 load_dotenv()
 
-app = Flask(__name__)
+app = Flask(__name__, template_folder=os.path.join(os.path.dirname(__file__), "../templates"))
 GUARDRAILS_PATH = Path("data/guardrails.txt")
 
 
