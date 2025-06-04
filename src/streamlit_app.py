@@ -88,6 +88,14 @@ def home_page() -> None:
                 guardrails = load_guardrails(GUARDRAILS_PATH)
                 ok, feedback = approve(draft, guardrails)
                 _log("Review draft", "approval agent", start)
+                if ok:
+                    _log("Approved draft", "approval agent", time.perf_counter())
+                else:
+                    _log(
+                        "Raise revision request",
+                        "approval agent",
+                        time.perf_counter(),
+                    )
 
             st.session_state.draft = draft
             st.session_state.approved = ok
