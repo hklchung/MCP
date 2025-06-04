@@ -6,7 +6,7 @@ from pathlib import Path
 import streamlit as st
 from dotenv import load_dotenv
 
-from agents.brief_agent import collect_brief
+from agents.brief_agent import collect_brief, validate_brief
 from agents.content_agent import ContentAgent
 from agents.approval_agent import approve, load_guardrails
 
@@ -33,9 +33,14 @@ def home_page() -> None:
         st.rerun()
 
     if submitted:
+        form_data = {"title": title, "description": description, "keywords": keywords}
+        brief = collect_brief(form_data)
+        valid, prompts = validate_brief(brief)
+        if not valid:
+            for msg in prompts:
+                st.warning(msg)
+            return
         with st.spinner("Generating draft..."):
-            form_data = {"title": title, "description": description, "keywords": keywords}
-            brief = collect_brief(form_data)
             agent = ContentAgent(os.environ.get("OPENAI_API_KEY", ""), model)
             draft = agent.generate_draft(brief)
             guardrails = load_guardrails(GUARDRAILS_PATH)
