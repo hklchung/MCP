@@ -5,6 +5,7 @@ from pathlib import Path
 
 import streamlit as st
 from dotenv import load_dotenv
+import pandas as pd
 
 from agents.brief_agent import collect_brief
 from agents.content_agent import ContentAgent
@@ -121,9 +122,11 @@ def result_page() -> None:
             st.error(f"Status: Rejected - {st.session_state.get('feedback', '')}")
 
     with tabs[1]:
-        st.write("Job | Agent | Time taken | Status")
-        for log in st.session_state.logs:
-            st.write(f"{log['job']} | {log['agent']} | {log['time']}s | {log['status']}")
+        if st.session_state.logs:
+            df = pd.DataFrame(st.session_state.logs)
+            st.table(df)
+        else:
+            st.info("No logs yet.")
 
     if st.button("Back"):
         st.session_state.page = "home"
