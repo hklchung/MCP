@@ -1,7 +1,7 @@
 # MCP Demo
 
 This project demonstrates a simple multi-agent workflow for generating marketing blog posts.
-It uses Flask for a minimal dashboard and OpenAI LLMs for text generation.
+It uses Streamlit for a minimal interface and OpenAI LLMs for text generation.
 
 ## Requirements
 - Python 3.11+
@@ -20,7 +20,7 @@ It uses Flask for a minimal dashboard and OpenAI LLMs for text generation.
    ```
 4. Run the application:
    ```bash
-   PYTHONPATH=src poetry run flask --app app run
+   PYTHONPATH=src poetry run streamlit run src/streamlit_app.py --server.port 8000
    ```
 
 ## Docker
